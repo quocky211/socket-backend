@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestsEnrollmentController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +25,15 @@ Route::prefix('api')->as('api.')->group(function () {
         
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
-
+        // check admin
+        Route::group(['middleware' => 'admin'], function () {
+            // users
+            Route::get('/users', [UserController::class, 'index']);
+            // crud
+            Route::resource('/user',UserController::class)->only([
+                'show', 'store', 'update', 'destroy',
+            ]);
+        });
         // mail notification 
         Route::get('/send-testenrollment', [TestsEnrollmentController::class, 'sendTestNotification']);
 

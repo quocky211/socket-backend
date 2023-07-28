@@ -42,4 +42,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * マネジメントユーザーの企業を除く
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUsers($query)
+    {
+        return $query->where('role', '<>', 'admin');
+    }
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

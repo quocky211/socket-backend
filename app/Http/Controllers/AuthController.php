@@ -23,8 +23,6 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        Log::info($request->all());
-
         return $this->authService->login($request->all());
     }
 

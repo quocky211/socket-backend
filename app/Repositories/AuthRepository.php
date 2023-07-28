@@ -25,7 +25,8 @@ class AuthRepository
                 'token' => $token,
                 'user' => [
                     'name' => $user->name,
-                    'email' => $user->email
+                    'email' => $user->email,
+                    'role' => $user->role,
                 ]
             ], 200);
         }
