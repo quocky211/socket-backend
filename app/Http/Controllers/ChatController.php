@@ -18,15 +18,39 @@ class ChatController extends Controller
     {
         $this->chatService = $chatService;
     }
-    public function message(Request $request)
+
+    /**
+     * fucntion show message with a user
+     * @param int $id
+     * @return mixed
+     */
+    public function show($id)
     {
-        // event(new Message($request->input(key:'username'),$request->input(key:'message')));
-        event(new Message($request->input('username'), $request->input('message')));
-        return [$request->input('username'), $request->input('message')];
+        return $this->chatService->getMessages($id);
     }
 
+    /**
+     * function get conversation id
+     * @param int $id // to_user_id
+     * @return number
+     */
+    public function getConversation($id)
+    {
+        return $this->chatService->getConversationId($id);
+    }
+
+    /**
+     * function store message
+     * @param StoreRequest $request
+     * @return 
+     */
     public function store(StoreRequest $request)
     {
+        // event(new Message($request->input('username'), $request->input('message')));
         return $this->chatService->store($request->all());
+    }
+
+    public function destroy($id)
+    {
     }
 }

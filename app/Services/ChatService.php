@@ -16,11 +16,31 @@ class ChatService
         $this->chatRepository = $chatRepository;
     }
 
-    public function getList()
+    /**
+     * function get messages with a user
+     * @param int $id
+     * @return array
+     */
+    public function getMessages( int $id)
     {
-        return $this->chatRepository->getList();
+        return $this->chatRepository->getMessages($id);
     }
 
+    /**
+     * fucntion get conversation id
+     * @param  int $id // to_user_id
+     * @return number
+     */
+    public function getConversationId(int $id)
+    {
+        return $this->chatRepository->getConversationId($id);
+    }
+
+    /**
+     * function store message
+     * @param array $data
+     * @return 
+     */
     public function store( array $data)
     {
         return $this->chatRepository->store($data);

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->integer('from_user_id');
-            $table->integer('to_usewr_id');
+            $table->integer('to_user_id');
             $table->text('message');
-            $table->string('message_status');
+            $table->string('message_status')->default('unread');
             $table->timestamps();
         });
     }

@@ -15,13 +15,18 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Test User1',
+            'name' => 'User1',
             'email' => 'test1@example.com',
             'password' => bcrypt('password'),
         ]);
         \App\Models\User::factory()->create([
-            'name' => 'Test User2',
+            'name' => 'User2',
             'email' => 'test2@example.com',
+            'password' => bcrypt('password'),
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'User3',
+            'email' => 'test3@example.com',
             'password' => bcrypt('password'),
         ]);
         \App\Models\User::factory()->create([
@@ -30,5 +35,20 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'admin'
         ]);
+
+        // conversation
+
+        \App\Models\Conversation::factory()->create(([
+            'user1' => 1,
+            'user2' => 2,
+        ]));
+        \App\Models\Conversation::factory()->create(([
+            'user1' => 1,
+            'user2' => 3,
+        ]));
+        \App\Models\Conversation::factory()->create(([
+            'user1' => 3,
+            'user2' => 2,
+        ]));
     }
 }

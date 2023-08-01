@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserRepository
@@ -15,8 +16,9 @@ class UserRepository
     public function getList()
     {
         return User::query()
-        ->select('id','name','email')
+        ->select('id','name')
         ->users()
+        ->where('id','<>',Auth::user()->id)
         ->get();
     }
 

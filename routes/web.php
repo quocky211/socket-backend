@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestsEnrollmentController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,28 +20,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('api')->as('api.')->group(function () {
-
+    // Broadcast::routes(['middleware'=>['auth:sanctum']]);
     // test
-    Route::get('/', function (){
+    Route::get('/', function () {
         return view('chat');
     });
     // login 
     Route::post('/login', [AuthController::class, 'login'])->name('login');
     // check token
     Route::middleware('auth:sanctum')->group(function () {
-        
+
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
         // check admin
         Route::group(['middleware' => 'admin'], function () {
-            // users
-            Route::get('/users', [UserController::class, 'index']);
             // crud
-            Route::resource('/user',UserController::class)->only([
+            Route::resource('/user', UserController::class)->only([
                 'show', 'store', 'update', 'destroy',
             ]);
         });
-        Route::post('/message',[ChatController::class,'message']);
+        //users
+        Route::get('/users', [UserController::class, 'index']);
+        // api message
+        Route::resource('/message',ChatController::class)->only([
+            'show', 'store', 'destroy',
+        ]);
+
+        Route::get('/conversationId/{id}',[ChatController::class,'getConversation']);
         // mail notification 
         Route::get('/send-testenrollment', [TestsEnrollmentController::class, 'sendTestNotification']);
 
