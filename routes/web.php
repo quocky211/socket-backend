@@ -5,6 +5,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestsEnrollmentController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -20,9 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('api')->as('api.')->group(function () {
-    // Broadcast::routes(['middleware'=>['auth:sanctum']]);
-    // test
-    Route::get('/', function () {
+
+    Route::resource('/posts', PostController::class);
+    //
+    Route::get('/', function(){
         return view('chat');
     });
     // login 
@@ -57,6 +59,5 @@ Route::prefix('api')->as('api.')->group(function () {
         Route::get('/downloads', [PostController::class, 'downloads'])->name('downloadAll'); // download all image of...
 
         // posts
-        Route::resource('/posts', PostController::class);
     });
 });

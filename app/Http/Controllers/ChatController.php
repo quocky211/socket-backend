@@ -6,6 +6,8 @@ use App\Events\Message;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {

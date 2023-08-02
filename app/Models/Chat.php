@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Chat extends Model
+class Chat extends Model implements HasMedia
 {
-    use HasFactory;
+    use InteractsWithMedia, HasFactory;
 
     protected $fillable = [
         'from_user_id',
@@ -15,4 +17,6 @@ class Chat extends Model
         'message',
         'message_status',
     ];
+
+    protected $guarded = [];
 }

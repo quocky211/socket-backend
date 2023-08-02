@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('from_user_id');
             $table->integer('to_user_id');
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->string('message_status')->default('unread');
             $table->timestamps();
         });

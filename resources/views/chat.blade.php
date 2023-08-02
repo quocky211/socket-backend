@@ -24,5 +24,6 @@
     Try publishing an event to channel <code>my-channel</code>
     with event name <code>my-event</code>.
   </p>
+  <img src="http://localhost:8000/storage/4/download-(2).jpg" alt="hinh anh">
 </body>
 </html>

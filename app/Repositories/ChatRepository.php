@@ -21,8 +21,7 @@ class ChatRepository
     {
         $userId1 = Auth::user()->id;
         $userId2 = $id;
-        return Chat::query()
-            ->select(['from_user_id', 'to_user_id', 'message', 'message_status'])
+        $chats = Chat::query()
             ->where(function ($query) use ($userId1, $userId2) {
                 $query->where('from_user_id', $userId1)->where('to_user_id', $userId2);
             })
@@ -31,6 +30,15 @@ class ChatRepository
             })
             ->orderBy('created_at', 'asc')
             ->get();
+
+        foreach ($chats as $chat) {
+            if ($chat['message']) {
+                $chat['image'] = null;
+            } else {
+                $chat['image'] = $chat->getFirstMediaUrl('images');
+            }
+        }
+        return $chats;
     }
 
     /**
@@ -78,12 +86,6 @@ class ChatRepository
             $options
         );
 
-        // output of message
-        $message = [
-            'to_user_id' => $data['to_user_id'],
-            'message' => $data['message'],
-        ];
-
         // conversationId
         $userId1 = Auth::user()->id;
         $userId2 =  $data['to_user_id'];
@@ -98,6 +100,21 @@ class ChatRepository
             ->get();
         $conversationId = $conversation->first()->id;
 
+        // store chat 
+        $chat = Chat::query()->create($param);
+        // store image
+        if (isset($data['image'])) {
+            $chat->addMediaFromRequest('image')
+                ->toMediaCollection('images');
+        }
+        $media = $chat->getFirstMediaUrl('images');
+        // output of message
+        $message = [
+            'to_user_id' => $data['to_user_id'],
+            'message' => $data['message'],
+            'image' =>  $media,
+        ];
+
         // create chat channel 
         $pusher->trigger('Chat-Conversation-' . $conversationId, 'message', $message);
 
@@ -109,8 +126,6 @@ class ChatRepository
         ];
         $pusher->trigger('Notification-User-' . $data['to_user_id'], 'notification', $notification);
 
-        // store chat 
-        $chat = Chat::query()->create($param);
 
         return $chat;
     }
