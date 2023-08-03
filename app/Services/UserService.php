@@ -51,7 +51,7 @@ class UserService
             DB::rollBack();
             throw $ex;
         }
-        return ['id' => $result->id];
+        return ['id' => $result['id']];
     }
 
     /**
@@ -79,5 +79,15 @@ class UserService
     public function destroy(int $id)
     {
         return $this->userRepository->destroy($id);
+    }
+
+     /**
+     * function update avatar
+     * @param array $data
+     * @param int $id
+     */    
+    public function updateAvatar(array $data, int $id)
+    {
+        return $this->userRepository->updateAvatar($data, $id);
     }
 }

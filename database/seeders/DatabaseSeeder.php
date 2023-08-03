@@ -17,16 +17,19 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'name' => 'User1',
             'email' => 'test1@example.com',
+            'avatar' =>'https://i.ex-cdn.com/mgn.vn/files/content/2022/12/07/anh1-1805.jpg',
             'password' => bcrypt('password'),
         ]);
         \App\Models\User::factory()->create([
             'name' => 'User2',
             'email' => 'test2@example.com',
+            'avatar' =>'https://img4.thuthuatphanmem.vn/uploads/2020/05/14/roronoa-zoro_092218456.jpg',
             'password' => bcrypt('password'),
         ]);
         \App\Models\User::factory()->create([
             'name' => 'User3',
             'email' => 'test3@example.com',
+            'avatar' =>'https://wanderound.com.vn/wp-content/uploads/2022/08/Bang-xep-hang-danh-tieng-thanh-vien-bang-mu-rom-2.jpg',
             'password' => bcrypt('password'),
         ]);
         \App\Models\User::factory()->create([

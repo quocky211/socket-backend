@@ -43,6 +43,8 @@ Route::prefix('api')->as('api.')->group(function () {
         });
         //users
         Route::get('/users', [UserController::class, 'index']);
+        //api change avatar
+        Route::post('/avatar/{userId}', [UserController::class,'updateAvatar']);
         // api message
         Route::resource('/message',ChatController::class)->only([
             'show', 'store', 'destroy',

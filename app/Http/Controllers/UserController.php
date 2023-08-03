@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\ShowRequest;
 use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateAvatarRequest;
 use App\Http\Requests\User\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Services\UserService;
@@ -66,5 +67,15 @@ class UserController extends Controller
     public function destroy($id)
     {
         return $this->userService->destroy($id);
+    }
+
+    /**
+     * function update avatar
+     * @param UpdateAvatarRequest $request
+     * @param int $id
+     */
+    public function updateAvatar(UpdateAvatarRequest $request, $id)
+    {   
+        return $this->userService->updateAvatar($request->all(), $id);
     }
 }

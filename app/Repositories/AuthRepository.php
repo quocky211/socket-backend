@@ -26,6 +26,7 @@ class AuthRepository
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
+                    'avatar' => $user->avatar,
                     'email' => $user->email,
                     'role' => $user->role,
                 ]

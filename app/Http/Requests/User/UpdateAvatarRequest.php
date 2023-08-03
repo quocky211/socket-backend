@@ -5,7 +5,7 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 
-class UpdateRequest extends FormRequest
+class UpdateAvatarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,16 +23,13 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'email', 'max:1024'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'string'],
         ];
     }
 
     public function validationData()
     {
         $validator = Validator::make($this->route()->parameters(), [
-            'user' => [
+            'userId' => [
                 'bail', 
                 'required',
                 'numeric',
