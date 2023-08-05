@@ -1,12 +1,6 @@
 To start backend by docker 
 	docker compose up -d --build
 
+To access path web
 	docker compose exec web bash
 
-	cp .env.example .env
-
-	php artisan key:generate
-
-	php artisan migrate:fresh --seed
-
-	exit
