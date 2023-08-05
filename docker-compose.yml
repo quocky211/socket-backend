@@ -14,7 +14,7 @@ services:
     working_dir: /var/www
     restart: always
     ports:
-      - 8000:8000
+      - "8000:8000"
     depends_on:
       - db
     volumes:
@@ -44,9 +44,8 @@ services:
     container_name: socket-backend_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: practise
-      MYSQL_USER: laravel
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
       MYSQL_PASSWORD: password
     volumes:
       - mysql_data:/var/lib/mysql
