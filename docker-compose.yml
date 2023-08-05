@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+ # Laravel Application Service
+  web:
+    container_name: socket-backend_web
+    build:
+      context: .
+      target: web
+      args:
+        - APP_ENV=local
+    environment:
+      - APP_ENV=local
+      - CONTAINER_ROLE=app
+    working_dir: /var/www
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www
+  # Websocket
+  websocket:
+    container_name: socket-backend_websocket
+    build:
+      context: .
+      target: web
+      args:
+        - APP_ENV=local
+    environment:
+      - APP_ENV=local
+      - CONTAINER_ROLE=websocket
+    working_dir: /var/www
+    restart: always
+    ports:
+      - 6001:6001
+    depends_on:
+      - db
+    volumes:
+      - ./:/var/www
+  # MySQL Service
+  db:
+    image: mysql:latest
+    container_name: socket-backend_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: practise
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  mysql_data:
