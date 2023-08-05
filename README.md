@@ -1,6 +1,6 @@
-To start backend by docker 
+To start backend by docker:
 	docker compose up -d --build
 
-To access path web
+To access path web:
 	docker compose exec web bash
 
