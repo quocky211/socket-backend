@@ -3,4 +3,6 @@ To start backend by docker:
 
 To access path web:
 	docker compose exec web bash
-
+ 
+Note: 
+- Remember create database with name: laravel 
