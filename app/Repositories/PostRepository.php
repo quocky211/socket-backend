@@ -30,7 +30,7 @@ class PostRepository
         // check request has input file 'image'
         if(isset($data['image']))
         {
-            $post->addMediaFromRequest("image")
+            $post->addMediaFromRequest("ima")
             ->usingName($param['title'])
             ->toMediaCollection('images');
         }

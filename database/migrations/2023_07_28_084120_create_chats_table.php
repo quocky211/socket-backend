@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('message')->nullable();
             $table->string('message_status')->default('unread');
             $table->timestamps();
+            $table->integer('deleted_by_user_id')->nullable();
+            $table->softDeletes();
         });
     }
 

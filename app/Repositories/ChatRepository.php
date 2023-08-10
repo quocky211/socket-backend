@@ -21,7 +21,7 @@ class ChatRepository
     {
         $userId1 = Auth::user()->id;
         $userId2 = $id;
-        $chats = Chat::query()
+        $chats = Chat::withTrashed()
             ->where(function ($query) use ($userId1, $userId2) {
                 $query->where('from_user_id', $userId1)->where('to_user_id', $userId2);
             })
@@ -30,12 +30,21 @@ class ChatRepository
             })
             ->orderBy('created_at', 'asc')
             ->get();
-
+        
         foreach ($chats as $chat) {
             if ($chat['message']) {
                 $chat['image'] = null;
             } else {
                 $chat['image'] = $chat->getFirstMediaUrl('images');
+            }
+
+            if ($chat['deleted_by_user_id'] === $userId1) {
+                $chatKey = $chats->search(function ($item) use ($chat) {
+                    return $item->id === $chat['id'];
+                });
+                if ($chatKey !== false) {
+                    $chats->forget($chatKey);
+                }
             }
         }
         return $chats;
@@ -131,11 +140,34 @@ class ChatRepository
     }
 
     /**
-     * function delete Chat
+     * function soft delete Chat
      *  @param int $id
      */
     public function destroy(int $id)
     {
-        Chat::destroy($id);
-    }
+        $userId1 = Auth::user()->id;
+        $userId2 =  $id;
+        $chats = Chat::withTrashed()
+            ->where(function ($query) use ($userId1, $userId2) {
+                $query->where('from_user_id', $userId1)->where('to_user_id', $userId2);
+            })
+            ->orWhere(function ($query) use ($userId1, $userId2) {
+                $query->where('from_user_id', $userId2)->where('to_user_id', $userId1);
+            })
+            ->get();
+
+        // soft delete
+        foreach ($chats as $chat) {
+            if (!is_null($chat['deleted_by_user_id'])) {
+                $chat->forceDelete();
+            } else {
+                Log::info($chat);
+                $chat['deleted_by_user_id'] = $userId1;
+ 
+                $chat->save();
+      
+                $chat->delete();
+            }
+        }
+    }  
 }

@@ -45,5 +45,13 @@ class ChatService
     {
         return $this->chatRepository->store($data);
     }
+    /**
+     * function soft delete Chat
+     *  @param int $id
+     */
+    public function destroy(int $id)
+    {
+        $this->chatRepository->destroy($id);
+    }
 
 }

@@ -25,7 +25,7 @@ class UserRepository
         foreach ($users as $user) {
             $userId1 = Auth::user()->id;
             $userId2 = $user->id;
-            $messages = Chat::query()
+            $messages = Chat::withTrashed()
                 ->where(function ($query) use ($userId1, $userId2) {
                     $query->where('from_user_id', $userId1)->where('to_user_id', $userId2);
                 })
@@ -34,7 +34,7 @@ class UserRepository
                 })
                 ->orderBy('created_at', 'desc')
                 ->get();
-            if (count($messages) > 0) {
+            if (count($messages) > 0 && $messages->first()->deleted_by_user_id !== $userId1) {
                 if ($messages->first()->message) {
                     $user['lastMessage'] = $messages->first()->message;
                 } else {

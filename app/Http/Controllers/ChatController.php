@@ -53,6 +53,7 @@ class ChatController extends Controller
     }
 
     public function destroy($id)
-    {
+    {   
+        $this->chatService->destroy($id);
     }
 }
