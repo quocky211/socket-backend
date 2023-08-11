@@ -49,6 +49,8 @@ Route::prefix('api')->as('api.')->group(function () {
         Route::resource('/message',ChatController::class)->only([
             'show', 'store', 'destroy',
         ]);
+        // api delete conversation 
+        Route::delete('/delete/conversation/{userId}',[ChatController::class,'destroyConversation']);
 
         Route::get('/conversationId/{id}',[ChatController::class,'getConversation']);
         // mail notification 

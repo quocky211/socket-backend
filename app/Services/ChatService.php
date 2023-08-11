@@ -21,7 +21,7 @@ class ChatService
      * @param int $id
      * @return array
      */
-    public function getMessages( int $id)
+    public function getMessages(int $id)
     {
         return $this->chatRepository->getMessages($id);
     }
@@ -45,13 +45,22 @@ class ChatService
     {
         return $this->chatRepository->store($data);
     }
+
     /**
-     * function soft delete Chat
-     *  @param int $id
+     * function delete a message
+     * @param int $id
      */
     public function destroy(int $id)
     {
         $this->chatRepository->destroy($id);
+    }
+    /**
+     * function soft delete Chat
+     *  @param int $userId
+     */
+    public function destroyConversation(int $userId)
+    {
+        $this->chatRepository->destroyConversation($userId);
     }
 
 }

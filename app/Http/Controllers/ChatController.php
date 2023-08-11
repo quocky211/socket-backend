@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\Message;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -52,8 +49,21 @@ class ChatController extends Controller
         return $this->chatService->store($request->all());
     }
 
+    /**
+     * function destroy message
+     * @param int $id
+     */
     public function destroy($id)
-    {   
+    {
         $this->chatService->destroy($id);
+    }
+
+    /**
+     * function delete conversation 
+     * @param int $userId
+     */
+    public function destroyConversation($userId)
+    {   
+        $this->chatService->destroyConversation($userId);
     }
 }
