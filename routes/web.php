@@ -34,6 +34,8 @@ Route::prefix('api')->as('api.')->group(function () {
 
         //logout
         Route::post('/logout', [AuthController::class, 'logout']);
+        // get user logged id
+        Route::get('/user/logged',[AuthController::class, 'getUserIdLogged']);
         // check admin
         Route::group(['middleware' => 'admin'], function () {
             // crud

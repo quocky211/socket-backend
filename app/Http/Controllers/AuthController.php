@@ -33,4 +33,12 @@ class AuthController extends Controller
     {
         return $this->authService->logout();
     }
+
+     /**
+     * function get all user id logged
+     */
+    public function getUserIdLogged()
+    {
+        return $this->authService->getUserIdLogged();
+    }
 }

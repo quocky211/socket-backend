@@ -34,4 +34,12 @@ class AuthService
     {
         return $this->authrepository->logout();
     }
+
+     /**
+     * function get all user id logged
+     */
+    public function getUserIdLogged()
+    {
+        return $this->authrepository->getUserIdLogged();
+    }
 }
