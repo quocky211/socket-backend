@@ -41,7 +41,7 @@ class ChatService
      * @param array $data
      * @return 
      */
-    public function store( array $data)
+    public function store(array $data)
     {
         return $this->chatRepository->store($data);
     }
@@ -54,6 +54,7 @@ class ChatService
     {
         $this->chatRepository->destroy($id);
     }
+
     /**
      * function soft delete Chat
      *  @param int $userId
@@ -63,4 +64,14 @@ class ChatService
         $this->chatRepository->destroyConversation($userId);
     }
 
+    /**
+     * function typing realime
+     * @param array $data
+     */
+    public function typingStatus(array $data)
+    {
+        $params = Arr::only($data, ['isTyping', 'conversationId']);
+
+        $this->chatRepository->typingStatus($params);
+    }
 }

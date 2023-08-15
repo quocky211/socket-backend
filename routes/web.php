@@ -51,6 +51,8 @@ Route::prefix('api')->as('api.')->group(function () {
         Route::resource('/message',ChatController::class)->only([
             'show', 'store', 'destroy',
         ]);
+        // api typing realtime
+        Route::post('/typing-status',[ChatController::class,'typingStatus']);
         // api delete conversation 
         Route::delete('/delete/conversation/{userId}',[ChatController::class,'destroyConversation']);
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Services\ChatService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -63,7 +64,12 @@ class ChatController extends Controller
      * @param int $userId
      */
     public function destroyConversation($userId)
-    {   
+    {
         $this->chatService->destroyConversation($userId);
+    }
+
+    public function typingStatus(Request $request)
+    {   
+        $this->chatService->typingStatus($request->all());
     }
 }

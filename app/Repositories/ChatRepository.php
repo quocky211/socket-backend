@@ -224,4 +224,36 @@ class ChatRepository
             }
         }
     }  
+
+    /**
+     * function typing realime
+     * @param array $data
+     */
+    public function typingStatus(array $data)
+    {   
+
+        // options for pusher
+        $options = [
+            'cluster' => 'ap1',
+            'encrypted' => true,
+        ];
+
+        // $pusher 
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+         // output of message
+         $typing = [
+            'isTyping' => $data['isTyping'],
+            'from_user_id' => Auth::user()->id,
+        ];
+
+        // create chat channel 
+        $pusher->trigger('Typing-Channel-' .$data['conversationId'], 'typing-event', $typing);
+    }
+
 }
