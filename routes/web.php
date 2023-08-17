@@ -53,6 +53,8 @@ Route::prefix('api')->as('api.')->group(function () {
         ]);
         // api typing realtime
         Route::post('/typing-status',[ChatController::class,'typingStatus']);
+        // api search
+        Route::get('/search', [ChatController::class,'search']);
         // api delete conversation 
         Route::delete('/delete/conversation/{userId}',[ChatController::class,'destroyConversation']);
 

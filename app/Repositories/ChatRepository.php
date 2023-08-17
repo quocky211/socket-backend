@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Chat;
 use App\Models\Conversation;
 use App\Models\User;
+use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -30,7 +32,7 @@ class ChatRepository
             })
             ->orderBy('created_at', 'asc')
             ->get();
-        
+
         foreach ($chats as $chat) {
             if ($chat['message']) {
                 $chat['image'] = null;
@@ -148,14 +150,13 @@ class ChatRepository
     public function destroy(int $id)
     {
         $chat = Chat::withTrashed()
-        ->where('id', '=', $id)
-        ->get()
-        ->first();
+            ->where('id', '=', $id)
+            ->get()
+            ->first();
 
-        if(!is_null($chat['message']))
-        {
+        if (!is_null($chat['message'])) {
             $chat->forceDelete();
-        }else{
+        } else {
             $chat->clearMediaCollection('images');
             $chat->forceDelete();
         }
@@ -190,7 +191,6 @@ class ChatRepository
             'body' => "Delete message in conversation-{$conversation->id}",
         ];
         $pusher->trigger('Delete-Message-' . $conversation->id, 'deleteMessage', $deleteMessage);
-
     }
 
     /**
@@ -215,22 +215,21 @@ class ChatRepository
             if (!is_null($chat['deleted_by_user_id'])) {
                 $chat->forceDelete();
             } else {
-                Log::info($chat);
                 $chat['deleted_by_user_id'] = $userId1;
- 
+
                 $chat->save();
-      
+
                 $chat->delete();
             }
         }
-    }  
+    }
 
     /**
      * function typing realime
      * @param array $data
      */
     public function typingStatus(array $data)
-    {   
+    {
 
         // options for pusher
         $options = [
@@ -246,14 +245,41 @@ class ChatRepository
             $options
         );
 
-         // output of message
-         $typing = [
+        // output of message
+        $typing = [
             'isTyping' => $data['isTyping'],
             'from_user_id' => Auth::user()->id,
         ];
 
         // create chat channel 
-        $pusher->trigger('Typing-Channel-' .$data['conversationId'], 'typing-event', $typing);
+        $pusher->trigger('Typing-Channel-' . $data['conversationId'], 'typing-event', $typing);
     }
 
+    /**
+     * fucntion search messages
+     * @param string $data
+     */
+    public function searchChat(string $data, int $userId)
+    {
+        $userId1 = Auth::user()->id;
+        $userId2 = $userId;
+        $chats = Chat::search($data)->withTrashed()->get();
+        $results = collect();
+        foreach ($chats as $chat) {
+            if (($chat['from_user_id']===$userId1 && $chat['to_user_id']===$userId2)||($chat['from_user_id']===$userId2 && $chat['to_user_id']===$userId1))
+            {
+                if ($chat['deleted_by_user_id'] !== $userId1) {
+                    $results->push($chat);
+                }
+            }
+            
+        }
+
+        // must use collect() to get count() 
+        Log::info($results);
+        return [
+            'count' => $results->count(),
+            'results' => $results,
+        ];
+    }
 }

@@ -74,4 +74,13 @@ class ChatService
 
         $this->chatRepository->typingStatus($params);
     }
+
+    /**
+     * fucntion search messages
+     * @param string $data
+     */
+    public function search(string $data, int $userId)
+    {
+        return $this->chatRepository->searchChat($data, $userId);
+    }
 }

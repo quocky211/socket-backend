@@ -68,8 +68,17 @@ class ChatController extends Controller
         $this->chatService->destroyConversation($userId);
     }
 
+    /**
+     * function typing realtime
+     * @param Request $request
+     */
     public function typingStatus(Request $request)
     {   
         $this->chatService->typingStatus($request->all());
+    }
+
+    public function search(Request $request)
+    {
+        return $this->chatService->search($request->input('search'), $request->input('userId'));
     }
 }
